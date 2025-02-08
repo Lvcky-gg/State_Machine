@@ -16,6 +16,8 @@ public class PlayerMoveState : PlayerState
     public override void Update()
     {
         base.Update();
+        if (Input.GetKeyDown(KeyCode.N))
+            player.stateMachine.ChangeState(player.idleState);
     }
     public override void Exit()
     {
