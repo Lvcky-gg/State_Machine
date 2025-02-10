@@ -21,7 +21,7 @@ public class PlayerIdleState : PlayerGroundedState
         if (xInput == player.facingDir && player.isWallDetected())
             return;
 
-        if (xInput != 0)
+        if (xInput != 0 && !player.isBusy)
             player.stateMachine.ChangeState(player.moveState);
     }
     public override void Exit()

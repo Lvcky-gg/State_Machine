@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Attack Details")]
+    public Vector2[] attackMovement;
+    public bool isBusy { get; private set; }
     [Header("Move Info")]
     public float moveSpeed = 8f;
     public float jumpForce;
@@ -44,6 +47,8 @@ public class Player : MonoBehaviour
     public PlayerJumpState jumpState
     { get; private set; }
     public PlayerDashState dashState { get; private set; }
+
+    public PlayerPrimaryAttack primaryAttack { get; private set; }
     #endregion
 
 
@@ -57,6 +62,8 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJump = new PlayerWallJump(this, stateMachine, "Jump");
+
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -76,6 +83,13 @@ public class Player : MonoBehaviour
         CheckForDashInput();
 
     }
+    public IEnumerator BusyFor(float _seconds)
+    {
+        isBusy = true;
+        yield return new WaitForSeconds(_seconds);
+        isBusy = false;
+    }
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     private void CheckForDashInput()
     {
         if (isWallDetected())
