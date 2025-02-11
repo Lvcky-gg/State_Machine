@@ -21,9 +21,11 @@ public class Entity : MonoBehaviour
     { get; private set; }
     public Rigidbody2D rb { get; private set; }
     #endregion
-
+    #region Facing
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
+    #endregion
+    #region UnityMethods
     protected virtual void Awake()
     {
         anim = GetComponentInChildren<Animator>();
@@ -39,6 +41,7 @@ public class Entity : MonoBehaviour
     {
 
     }
+    #endregion
     #region Collision
     public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
@@ -51,7 +54,6 @@ public class Entity : MonoBehaviour
         .DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
     #endregion
-
     #region Flip
     public void Flip()
     {
