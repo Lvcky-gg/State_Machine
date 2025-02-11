@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class SkeletonBattleState : EnemyState
@@ -25,11 +26,22 @@ public class SkeletonBattleState : EnemyState
     {
         base.Update();
 
-        if (enemy.IsPlayerDetected() && enemy.IsPlayerDetected().distance < enemy.attackDistance)
+        if (enemy.IsPlayerDetected())
         {
-            if (CanAttack())
+            stateTimer = enemy.battleTime;
+            if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
-                stateMachine.ChangeState(enemy.attackState);
+                if (CanAttack())
+                {
+                    stateMachine.ChangeState(enemy.attackState);
+                }
+            }
+        }
+        else
+        {
+            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 15)
+            {
+                stateMachine.ChangeState(enemy.idleState);
             }
         }
 

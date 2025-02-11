@@ -10,6 +10,7 @@ public class Enemy : Entity
     public float moveSpeed;
     public float idleTime;
     [Header("Attack Info")]
+    public float battleTime;
     public float attackDistance;
     public float attackCooldown;
     [HideInInspector]
