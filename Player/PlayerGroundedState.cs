@@ -22,6 +22,8 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.jumpState);
         if (Input.GetKeyDown(KeyCode.J))
             stateMachine.ChangeState(player.primaryAttack);
+        if (Input.GetKeyDown(KeyCode.K))
+            stateMachine.ChangeState(player.counterState);
     }
     public override void Exit()
     {
