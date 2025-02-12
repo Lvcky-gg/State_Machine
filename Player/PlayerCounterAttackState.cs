@@ -29,7 +29,7 @@ public class PlayerCounterAttackState : PlayerState
             {
                 if (hit.GetComponent<Enemy>().CanBeStunned())
                 {
-                    stateTimer = 10;
+                    stateTimer = 1;
                     player.anim.SetBool("SuccessfulCounterAttack", true);
                 }
 
