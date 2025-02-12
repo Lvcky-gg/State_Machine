@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    [Header("Knockback")]
+    [SerializeField] protected Vector2 knockbackDir;
+    [SerializeField] protected float knockbackDuration;
+    protected bool isKnocked;
     #region  Collision
     [Header("Collision Info")]
     [SerializeField]
@@ -15,11 +19,14 @@ public class Entity : MonoBehaviour
     [SerializeField]
     protected float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
+    public Transform attackCheck;
+    public float attackCheckRadius;
     #endregion
     #region  Components
     public Animator anim
     { get; private set; }
     public Rigidbody2D rb { get; private set; }
+    public EntityFX fx { get; private set; }
     #endregion
     #region Facing
     public int facingDir { get; private set; } = 1;
@@ -32,6 +39,7 @@ public class Entity : MonoBehaviour
         if (anim == null)
             Debug.Log("anim is null");
         rb = GetComponent<Rigidbody2D>();
+        fx = GetComponent<EntityFX>();
     }
     protected virtual void Start()
     {
@@ -52,6 +60,7 @@ public class Entity : MonoBehaviour
         .DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos
         .DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
     #region Flip
@@ -74,12 +83,31 @@ public class Entity : MonoBehaviour
     #region Velocity
     public void ZeroVelocity()
     {
+        if (isKnocked)
+            return;
         rb.velocity = new Vector2(0, 0);
     }
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
+        if (isKnocked)
+            return;
+
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
     #endregion
+
+    public virtual void Damage()
+    {
+        fx.StartCoroutine("FlashFX");
+        StartCoroutine(HitKnockback());
+        Debug.Log(gameObject.name + " is damaged");
+    }
+    protected virtual IEnumerator HitKnockback()
+    {
+        isKnocked = true;
+        rb.velocity = new Vector2(knockbackDir.x * facingDir, knockbackDir.y);
+        yield return new WaitForSeconds(knockbackDuration);
+        isKnocked = false;
+    }
 }
