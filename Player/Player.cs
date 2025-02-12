@@ -12,9 +12,8 @@ public class Player : Entity
     [Header("Move Info")]
     public float moveSpeed = 8f;
     public float jumpForce;
-    [Header("Dash Info")]
-    [SerializeField] private float dashCooldown;
-    private float dashUsageTimer;
+
+
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
