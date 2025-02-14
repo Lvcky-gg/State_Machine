@@ -68,6 +68,6 @@ public class Sword_Skill : Skill
     private Vector2 DotsPosition(float t) =>
     (Vector2)player.transform.position + new Vector2(
             AimDirection().normalized.x * launchDir.x,
-            AimDirection().normalized.y * launchDir.y) * t + .5f * (Physics2D.gravity * swordGravity) * (t * t);
+            AimDirection().normalized.y * launchDir.y) * t + .2f * (Physics2D.gravity * swordGravity) * (t * t);
 
 }
