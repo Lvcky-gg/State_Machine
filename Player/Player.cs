@@ -23,6 +23,8 @@ public class Player : Entity
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerCounterAttackState counterState { get; private set; }
+    public PlayerAimSwordState aimSwordState { get; private set; }
+    public PlayerCatchSwordState catchSwordState { get; private set; }
 
     public PlayerAirState airState { get; private set; }
     public PlayerWallSlideState wallSlide { get; private set; }
@@ -34,6 +36,8 @@ public class Player : Entity
     public PlayerPrimaryAttack primaryAttack { get; private set; }
     #endregion
     public float CounterAttackDuration = .2f;
+
+    public SkillManager skill { get; private set; }
 
 
     protected override void Awake()
@@ -49,11 +53,14 @@ public class Player : Entity
         wallJump = new PlayerWallJump(this, stateMachine, "Jump");
         counterState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
+        aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword");
+        catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
     }
 
     protected override void Start()
     {
         base.Start();
+        skill = SkillManager.instance;
         stateMachine.Initialize(idleState);
     }
 
