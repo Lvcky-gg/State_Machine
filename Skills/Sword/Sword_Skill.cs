@@ -42,18 +42,13 @@ public class Sword_Skill : Skill
     {
         GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
         Sword_Skill_Controller newSwordScript = newSword.GetComponent<Sword_Skill_Controller>();
-        newSwordScript.SetupSword(finalDir, swordGravity);
+        newSwordScript.SetupSword(finalDir, swordGravity, player);
+        player.AssignNewSword(newSword);
         DotsActive(false);
     }
     public Vector2 AimDirection() =>
         Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position;
-    // {
-    //     Vector2 playerPosition = player.transform.position;
-    //     Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //     Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position;
-    //     //return Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position;
-    //     return dir;
-    // }
+
     public void DotsActive(bool _isActive)
     {
         for (int i = 0; i < dots.Length; i++)
@@ -74,10 +69,5 @@ public class Sword_Skill : Skill
     (Vector2)player.transform.position + new Vector2(
             AimDirection().normalized.x * launchDir.x,
             AimDirection().normalized.y * launchDir.y) * t + .5f * (Physics2D.gravity * swordGravity) * (t * t);
-    // {
-    //     Vector2 position = (Vector2)player.transform.position + new Vector2(
-    //         AimDirection().normalized.x * launchDir.x,
-    //         AimDirection().normalized.y * launchDir.y) * t + .5f * (Physics2D.gravity * swordGravity) * (t * t);
-    //     return position;
-    // }
+
 }

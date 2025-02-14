@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    public GameObject sword { get; private set; }
     [Header("Attack Details")]
     public Vector2[] attackMovement;
 
@@ -12,6 +13,7 @@ public class Player : Entity
     [Header("Move Info")]
     public float moveSpeed = 8f;
     public float jumpForce;
+    public float swordReturnImpact;
 
 
     public float dashSpeed;
@@ -96,6 +98,12 @@ public class Player : Entity
         }
     }
 
+    public void AssignNewSword(GameObject _sword) => sword = _sword;
+    public void ClearSword()
+    {
+        stateMachine.ChangeState(catchSwordState);
+        Destroy(sword);
+    }
 
 
 }
